@@ -71,6 +71,25 @@ func _process(delta: float) -> void:
 			if card.has_method("orbit_update"):
 				card.orbit_update(delta)
 
+func _input(event: InputEvent) -> void:
+	# Esc 键退出全屏
+	if event.is_action_pressed("ui_cancel"):
+		_toggle_fullscreen()
+	# F11 键切换全屏/窗口
+	elif event is InputEventKey and event.pressed and event.keycode == KEY_F11:
+		_toggle_fullscreen()
+
+func _toggle_fullscreen() -> void:
+	var current_mode = DisplayServer.window_get_mode()
+	if current_mode == DisplayServer.WINDOW_MODE_FULLSCREEN:
+		# 切换到窗口模式
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+		DisplayServer.window_set_size(Vector2i(1600, 900))
+		DisplayServer.window_set_position(Vector2i(160, 90))
+	else:
+		# 切换到全屏模式
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+
 func _on_lottery_button_pressed() -> void:
 	if is_lottery_running:
 		return
