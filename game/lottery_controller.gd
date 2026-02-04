@@ -72,11 +72,16 @@ func _generate_cards() -> void:
 			"name": "员工 %d" % (i + 1),
 			"avatar": ""  # TODO: 加载真实头像
 		}
-		card.set_person_data(person_data)
+		
+		# 连接信号
 		card.card_clicked.connect(_on_card_clicked)
 		
+		# 添加到场景
 		card_container.add_child(card)
 		person_cards.append(card)
+		
+		# 延迟设置数据（确保节点完全初始化）
+		card.set_person_data.call_deferred(person_data)
 
 ## 切换布局
 func switch_layout(layout_type: LayoutAlgorithm.LayoutType) -> void:
