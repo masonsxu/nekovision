@@ -8,7 +8,7 @@ config_version=5
 
 config/name="Aetheric Vortex - 3D Lottery System"
 config/description="以太星涡 - 革命性奢侈品抽奖展示系统"
-run/main_scene="res://scenes/Main.tscn"
+run/main_scene="res://scenes/LotteryMain.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
