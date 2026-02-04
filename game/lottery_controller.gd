@@ -54,9 +54,8 @@ func _create_environment() -> Environment:
 	env.glow_bloom = 0.3
 	env.glow_blend_mode = Environment.GLOW_BLEND_MODE_ADDITIVE
 	
-	env.dof_blur_far_enabled = true
-	env.dof_blur_far_distance = 2000.0
-	env.dof_blur_far_transition = 500.0
+	# DOF 在 Godot 4.6 中需要使用 CameraAttributes
+	# 暂时禁用，后续可通过 CameraAttributesDOF 添加
 	
 	return env
 
