@@ -1,10 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://card3d_scene"]
+[gd_scene load_steps=4 format=3 uid="uid://card3d_scene"]
 
 [ext_resource type="Script" path="res://game/card_3d.gd" id="1"]
 [ext_resource type="Material" path="res://assets/materials/crystal_card.tres" id="2"]
 
 [sub_resource type="BoxMesh" id="BoxMesh"]
 size = Vector3(1.2, 1.6, 0.1)
+
+[sub_resource type="QuadMesh" id="QuadMesh"]
+size = Vector2(1.25, 1.65)
 
 [node name="Card3D" type="Node3D"]
 script = ExtResource("1")
@@ -13,10 +16,17 @@ script = ExtResource("1")
 mesh = SubResource("BoxMesh")
 surface_material_override/0 = ExtResource("2")
 
+[node name="GlowRim" type="MeshInstance3D" parent="."]
+mesh = SubResource("QuadMesh")
+transparency = 0.5
+
 [node name="Label3D" type="Label3D" parent="."]
 offset = Vector3(0, 0, 0.06)
 billboard = true
 text = "Prize"
 font_size = 32
-outline_size = 2
+outline_size = 3
+outline_color = Color(1, 0.85, 0.3, 1)
+modulate = Color(1, 0.95, 0.8, 1)
 pixel_size = 0.01
+visible = false

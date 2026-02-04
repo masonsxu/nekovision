@@ -24,10 +24,44 @@ func _setup_lighting() -> void:
 	# 主光源（直射光）
 	var sun = DirectionalLight3D.new()
 	sun.name = "Sun"
-	sun.light_energy = 0.8
+	sun.light_energy = 1.2
+	sun.light_color = Color(0.95, 0.95, 1.0, 1.0)
 	sun.shadow_enabled = true
+	sun.directional_shadow_max_distance = 50.0
 	sun.rotation_degrees = Vector3(-45, 45, 0)
 	add_child(sun)
+	
+	# 暖色点光源（营造氛围）
+	var warm_light = PointLight3D.new()
+	warm_light.name = "WarmLight"
+	warm_light.position = Vector3(10, 8, 10)
+	warm_light.light_energy = 2.0
+	warm_light.light_color = Color(1.0, 0.7, 0.3, 1.0)
+	warm_light.shadow_enabled = true
+	warm_light.omni_range = 30.0
+	add_child(warm_light)
+	
+	# 冷色点光源（对比色）
+	var cool_light = PointLight3D.new()
+	cool_light.name = "CoolLight"
+	cool_light.position = Vector3(-10, 6, -10)
+	cool_light.light_energy = 1.5
+	cool_light.light_color = Color(0.3, 0.5, 1.0, 1.0)
+	cool_light.shadow_enabled = false
+	cool_light.omni_range = 25.0
+	add_child(cool_light)
+	
+	# 金色聚光灯（流金效果）
+	var spot_light = SpotLight3D.new()
+	spot_light.name = "GoldenSpot"
+	spot_light.position = Vector3(0, 15, 0)
+	spot_light.light_energy = 3.0
+	spot_light.light_color = Color(1.0, 0.85, 0.3, 1.0)
+	spot_light.spot_range = 25.0
+	spot_light.spot_angle = 45.0
+	spot_light.spot_attenuation = 0.5
+	spot_light.rotation_degrees = Vector3(-90, 0, 0)
+	add_child(spot_light)
 
 func _generate_cards() -> void:
 	var card_scene = preload("res://scenes/Card3D.tscn")
@@ -142,21 +176,28 @@ func _gravitational_contraction(duration: float) -> void:
 	await tween.finished
 
 func _reveal_prize(winner_index: int) -> void:
+	# 触发粒子爆发
+	_trigger_particle_burst()
+	
 	# 爆发效果
 	for i in range(card_nodes.size()):
 		var card = card_nodes[i]
 		var card_tween = create_tween()
 		
 		if i == winner_index:
-			# 中奖卡片放大
+			# 中奖卡片放大 + 旋转
 			card_tween.set_parallel(true)
-			card_tween.tween_property(card, "scale", Vector3(2.0, 2.0, 2.0), 1.0)
-			card_tween.tween_property(card, "position", Vector3(0, 0, 5), 1.0)
+			card_tween.tween_property(card, "scale", Vector3(2.5, 2.5, 2.5), 1.2).set_ease(Tween.EaseType.EASE_OUT).set_trans(Tween.TransitionType.TRANS_BACK)
+			card_tween.tween_property(card, "position", Vector3(0, 0, 6), 1.2)
+			card_tween.tween_property(card, "rotation_degrees:y", 360.0, 1.2)
 		else:
-			# 其他卡片向外飞散
+			# 其他卡片向外飞散（带旋转）
 			var direction = card.position.normalized()
-			card_tween.tween_property(card, "position", direction * 20.0, 1.5)
-			card_tween.tween_property(card, "scale", Vector3(0.1, 0.1, 0.1), 1.5)
+			card_tween.set_parallel(true)
+			card_tween.tween_property(card, "position", direction * 25.0, 1.8).set_ease(Tween.EaseType.EASE_OUT).set_trans(Tween.TransitionType.TRANS_QUART)
+			card_tween.tween_property(card, "scale", Vector3(0.05, 0.05, 0.05), 1.8)
+			card_tween.tween_property(card, "rotation_degrees:x", 180.0, 1.8)
+			card_tween.tween_property(card, "rotation_degrees:z", 180.0, 1.8)
 	
 	# 相机推镜至中奖卡片
 	if camera_controller and camera_controller.has_method("focus_on_card"):
@@ -165,8 +206,40 @@ func _reveal_prize(winner_index: int) -> void:
 	prize_revealed.emit(winner_index)
 	
 	# 延迟后重置
-	await get_tree().create_timer(3.0).timeout
+	await get_tree().create_timer(4.0).timeout
 	_reset_lottery()
+
+func _trigger_particle_burst() -> void:
+	# 在原点创建粒子爆发
+	var particles = GPUParticles3D.new()
+	var material = ParticleProcessMaterial.new()
+	
+	material.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_POINT
+	material.emission_sphere_radius = 0.5
+	material.gravity = Vector3(0, 1.0, 0)
+	material.initial_velocity_min = 5.0
+	material.initial_velocity_max = 15.0
+	material.angular_velocity_min = -360.0
+	material.angular_velocity_max = 360.0
+	
+	var gradient = Gradient.new()
+	gradient.add_point(0.0, Color(1.0, 0.84, 0.0, 1.0))
+	gradient.add_point(0.5, Color(1.0, 1.0, 0.6, 0.8))
+	gradient.add_point(1.0, Color(1.0, 0.6, 0.2, 0.0))
+	material.color_ramp = gradient
+	
+	material.scale_min = 0.2
+	material.scale_max = 0.5
+	
+	particles.process_material = material
+	particles.amount = 200
+	particles.lifetime = 2.5
+	particles.position = Vector3.ZERO
+	vortex_container.add_child(particles)
+	
+	particles.emitting = true
+	await get_tree().create_timer(3.0).timeout
+	particles.queue_free()
 
 func _reset_lottery() -> void:
 	# 重置所有卡片位置
