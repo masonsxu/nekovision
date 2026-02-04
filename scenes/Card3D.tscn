@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://card3d_scene"]
+
+[ext_resource type="Script" path="res://game/card_3d.gd" id="1"]
+[ext_resource type="Material" path="res://assets/materials/crystal_card.tres" id="2"]
+
+[sub_resource type="BoxMesh" id="BoxMesh"]
+size = Vector3(1.2, 1.6, 0.1)
+
+[node name="Card3D" type="Node3D"]
+script = ExtResource("1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh")
+surface_material_override/0 = ExtResource("2")
+
+[node name="Label3D" type="Label3D" parent="."]
+offset = Vector3(0, 0, 0.06)
+billboard = true
+text = "Prize"
+font_size = 32
+outline_size = 2
+pixel_size = 0.01

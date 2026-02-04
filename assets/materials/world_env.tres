@@ -1,0 +1,29 @@
+[gd_resource type="Environment" load_steps=2 format=3 uid="uid://world_environment"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial"]
+sky_horizon_color = Color(0.05, 0.08, 0.15, 1.0)
+ground_horizon_color = Color(0.02, 0.03, 0.08, 1.0)
+
+[resource]
+background_mode = 2
+sky = SubResource("ProceduralSkyMaterial")
+ambient_light_source = 1
+ambient_light_color = Color(0.1, 0.15, 0.3, 1.0)
+ambient_light_energy = 0.4
+tonemap_mode = 2
+tonemap_exposure = 1.0
+ssr_enabled = true
+ssr_max_steps = 32
+ssao_enabled = true
+glow_enabled = true
+glow_bloom = 0.2
+glow_blend_mode = 2
+glow_strength = 1.2
+glow_hdr_threshold = 0.8
+dof_blur_far_enabled = true
+dof_blur_far_distance = 15.0
+dof_blur_far_transition = 5.0
+adjustment_enabled = true
+adjustment_brightness = 1.0
+adjustment_contrast = 1.1
+adjustment_saturation = 1.1

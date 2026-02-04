@@ -1,0 +1,9 @@
+[gd_resource type="PlaceholderTexture2D" load_steps=2 format=3 uid="uid://placeholder_texture"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D"]
+gradient = SubResource("Gradient_q5vhv")
+width = 256
+height = 256
+
+[resource]
+size = Vector2(256, 256)

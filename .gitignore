@@ -1,0 +1,21 @@
+# Godot-specific files
+.godot/
+.import/
+export_presets.cfg
+
+# Build artifacts
+*.blend[0-9]*
+*.import
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Project-specific
+.log

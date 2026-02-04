@@ -1,0 +1,19 @@
+<svg width="128" height="128" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="vortex" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a237e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#4a148c;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="64" cy="64" r="60" fill="url(#vortex)" stroke="#ffd700" stroke-width="3"/>
+  
+  <!-- Spiral pattern -->
+  <path d="M64,64 Q70,50 80,55 T95,75 T80,95 T50,90 T30,65 T45,40 T75,35" 
+        fill="none" stroke="#ffd700" stroke-width="2" opacity="0.8"/>
+  
+  <!-- Center star -->
+  <polygon points="64,45 68,58 82,58 71,67 75,80 64,72 53,80 57,67 46,58 60,58" 
+           fill="#ffd700"/>
+</svg>
