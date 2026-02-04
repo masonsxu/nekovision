@@ -28,12 +28,6 @@ func _setup_lighting() -> void:
 	sun.shadow_enabled = true
 	sun.rotation_degrees = Vector3(-45, 45, 0)
 	add_child(sun)
-	
-	# 环境光
-	var ambient = AmbientLight3D.new()
-	ambient.ambient_light_color = Color(0.1, 0.15, 0.3, 1.0)
-	ambient.ambient_light_energy = 0.4
-	add_child(ambient)
 
 func _generate_cards() -> void:
 	var card_scene = preload("res://scenes/Card3D.tscn")
@@ -43,7 +37,7 @@ func _generate_cards() -> void:
 		card.name = "Card_" + str(i)
 		
 		# 计算位置（双螺旋布局）
-		var phase = float(i) % 2 * PI  # 双螺旋相位
+		var phase = float(i % 2) * PI  # 双螺旋相位
 		var pos = VortexLayout.calculate_double_helix_position(i, CARD_COUNT, phase)
 		card.position = pos
 		
@@ -159,7 +153,7 @@ func _reset_lottery() -> void:
 	# 重置所有卡片位置
 	for i in range(card_nodes.size()):
 		var card = card_nodes[i]
-		var phase = float(i) % 2 * PI
+		var phase = float(i % 2) * PI
 		var pos = VortexLayout.calculate_double_helix_position(i, CARD_COUNT, phase)
 		
 		var tween = create_tween()

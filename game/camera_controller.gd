@@ -35,7 +35,7 @@ func focus_on_card(card: Node3D) -> void:
 	
 	# 推镜至卡片前方
 	var target_pos = card.position + Vector3(0, 0, 3)
-	tween.tween_property(self, "position", target_pos, 1.5).set_ease(Tween.EASE_TYPE_IN_OUT).set_trans(Tween.TRANS_TYPE_CUBIC)
+	tween.tween_property(self, "position", target_pos, 1.5).set_ease(Tween.EaseType.EASE_IN_OUT).set_trans(Tween.TransitionType.TRANS_CUBIC)
 	tween.tween_callback(func(): look_at(card.position))
 	
 	await tween.finished

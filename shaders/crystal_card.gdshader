@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode unshaded, cull_disabled, async_visible;
+render_mode unshaded, cull_disabled;
 
 uniform sampler2D albedo_texture;
 uniform vec4 albedo_color : source_color = vec4(0.1, 0.15, 0.3, 0.8);

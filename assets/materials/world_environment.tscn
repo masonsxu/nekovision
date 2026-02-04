@@ -1,6 +1,0 @@
-[gd_resource type="WorldEnvironment" load_steps=2 format=3 uid="uid://world_environment_node"]
-
-[ext_resource type="Environment" path="res://assets/materials/world_env.tres" id="1"]
-
-[resource]
-environment = ExtResource("1")
